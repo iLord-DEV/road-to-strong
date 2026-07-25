@@ -1,18 +1,20 @@
 <x-layout>
-    <header class="flex items-start justify-between">
-        <div>
-            <h1 class="text-3xl font-semibold tracking-tight">Heute</h1>
-            <p class="mt-1 text-neutral-500 dark:text-neutral-400">{{ now()->isoFormat('dddd, D. MMMM') }}</p>
-        </div>
+    <div class="flex items-center justify-between">
+        <x-nav active="heute" />
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button
                 type="submit"
-                class="flex min-h-11 min-w-11 items-center justify-center rounded-lg px-2 text-sm text-neutral-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900 dark:text-neutral-500 dark:focus-visible:outline-neutral-100"
+                class="flex min-h-11 items-center rounded-lg px-2 text-sm text-neutral-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900 dark:text-neutral-500 dark:focus-visible:outline-neutral-100"
             >
                 Abmelden
             </button>
         </form>
+    </div>
+
+    <header class="mt-4">
+        <h1 class="text-3xl font-semibold tracking-tight">Heute</h1>
+        <p class="mt-1 text-neutral-500 dark:text-neutral-400">{{ now()->isoFormat('dddd, D. MMMM') }}</p>
     </header>
 
     @if (session('status'))
@@ -45,6 +47,9 @@
                         Gestern
                     @else
                         {{ $weight->measured_at->isoFormat('dd, D. MMMM') }}
+                    @endif
+                    @if ($weightTrend)
+                        · {{ $weightTrend['delta'] < 0 ? '−' : '+' }}{{ number_format(abs($weightTrend['delta']), 1, ',', '.') }} kg in {{ $weightTrend['days'] }} Tagen
                     @endif
                 </p>
             @elseif ($withingsConnected)
@@ -114,6 +119,67 @@
                     Strava verbinden
                 </a>
             @endif
+        </section>
+
+        {{-- Habits --}}
+        <section aria-labelledby="habits-heading" class="rounded-2xl bg-white p-6 shadow-sm dark:bg-neutral-900">
+            <h2 id="habits-heading" class="text-sm font-medium tracking-wide text-neutral-500 uppercase dark:text-neutral-400">
+                Gewohnheiten
+            </h2>
+
+            <div class="mt-5 space-y-6">
+                <div>
+                    <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Schlafqualität</h3>
+                    <div class="mt-2 flex flex-wrap gap-2">
+                        @foreach ([1, 2, 3, 4, 5] as $value)
+                            <x-habit-option field="schlaf" :value="$value" :label="$value" :current="$log?->schlaf" />
+                        @endforeach
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Energie</h3>
+                    <div class="mt-2 flex flex-wrap gap-2">
+                        @foreach ([1, 2, 3, 4, 5] as $value)
+                            <x-habit-option field="energie" :value="$value" :label="$value" :current="$log?->energie" />
+                        @endforeach
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Mittag vorbereitet</h3>
+                    <div class="mt-2 flex flex-wrap gap-2">
+                        <x-habit-option field="mittag_vorbereitet" value="1" label="Ja" :current="$log?->mittag_vorbereitet" />
+                        <x-habit-option field="mittag_vorbereitet" value="0" label="Nein" :current="$log?->mittag_vorbereitet" />
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Feierabend eingehalten</h3>
+                    <div class="mt-2 flex flex-wrap gap-2">
+                        <x-habit-option field="feierabend" value="1" label="Ja" :current="$log?->feierabend" />
+                        <x-habit-option field="feierabend" value="0" label="Nein" :current="$log?->feierabend" />
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Naschen</h3>
+                    <div class="mt-2 flex flex-wrap gap-2">
+                        <x-habit-option field="naschen" value="keines" label="Keines" :current="$log?->naschen" />
+                        <x-habit-option field="naschen" value="bewusst" label="Bewusst" :current="$log?->naschen" />
+                        <x-habit-option field="naschen" value="automatisch" label="Automatisch" :current="$log?->naschen" />
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Craving</h3>
+                    <div class="mt-2 flex flex-wrap gap-2">
+                        @foreach ([0, 1, 2, 3] as $value)
+                            <x-habit-option field="craving" :value="$value" :label="$value" :current="$log?->craving" />
+                        @endforeach
+                    </div>
+                </div>
+            </div>
         </section>
 
     </div>

@@ -81,45 +81,6 @@ Die Entscheidungen davor und danach sind das eigentliche Produkt.
 
 ---
 
-# Das Denkmodell: Vier Ebenen
-
-Road to Strong denkt in vier Ebenen — nicht als vier Seiten, sondern als Denkmodell:
-
-| Ebene | Frage | Beispiele |
-|---|---|---|
-| **Heute** | Was sollte ich heute tun? | Training, Habits |
-| **Kennzahlen** | Wo stehe ich? | Gewicht, W/kg, Kraft, Trainingszeit |
-| **Verlauf** | Wie entwickle ich mich? | Diagramme, Trends |
-| **Insights** | Warum entwickle ich mich so? | Korrelationen, Erklärungen |
-
-Kennzahlen beantworten: „Wie stehe ich aktuell da?"
-
-Insights beantworten: „Warum hat sich diese Kennzahl verändert?"
-
-Beispiele für Insights:
-
-- Deine W/kg steigen hauptsächlich durch Gewichtsverlust.
-- Deine Leistung stagniert trotz höherem Trainingsumfang.
-- Dein Gewicht sinkt, aber deine Kraft bleibt stabil.
-- An Wochen mit zwei Krafttrainings steigt deine NP häufiger.
-
----
-
-# Leistungskennzahlen: W/kg richtig messen
-
-W/kg ist eine Kernmetrik des Verlaufs — prominent im Dashboard und im Verlauf.
-Aber nicht jede W/kg-Zahl ist gleich aussagekräftig:
-
-- **FTP/kg** ist die Hauptkennzahl (wenn eine belastbare FTP vorhanden ist).
-- **Beste 20-Minuten-Leistung/kg**, 8-Minuten-Leistung/kg o. ä. Zeitfenster ergänzend.
-- **NP/kg** wird immer aktivitätsbezogen angezeigt („Ventoux: 2,9 W/kg",
-  „Intervalltraining: 3,4 W/kg") — nie als allgemeine Fitnesskennzahl,
-  weil die NP einer einzelnen Ausfahrt stark vom Trainingstyp abhängt.
-
-So bleibt die Kennzahl vergleichbar und motivierend, ohne falsche Schlüsse zu fördern.
-
----
-
 # Die drei Fragen
 
 Road to Strong beantwortet jeden Tag nur drei Fragen.

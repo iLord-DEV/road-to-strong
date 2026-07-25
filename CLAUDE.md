@@ -40,8 +40,25 @@ Die vollständige Produktvision steht in `docs/VISION.md` — vor größeren Ent
 
 - **PWA**: `public/manifest.webmanifest` + Icons (`public/icons/`, maskable mit 70%-Safe-Zone), Meta-Tags im Layout. Kein Service Worker (bewusst: kein Offline-Cache, keine Stale-Daten). Installation vom Handy setzt HTTPS-Erreichbarkeit voraus.
 
-## Offene Punkte (Roadmap in docs/VISION.md)
+## Produktkompass (Details in docs/VISION.md)
 
+Vier Ebenen: **Heute** (was tun?) → **Kennzahlen** (wo stehe ich?) → **Verlauf** (wie entwickle ich mich?)
+→ **Insights** (warum?). Jedes Feature muss eine dieser Fragen besser beantworten, sonst gehört es
+nicht ins Produkt. Tägliche Eingabe < 60 Sekunden. Diagramme sind erwünscht, wenn sie Trends zeigen
+(Langzeitjournal) — nicht um Tagesschwankungen zu dramatisieren.
+
+**W/kg-Regeln** (Details in VISION.md): FTP/kg ist die Hauptkennzahl; beste 20-min-/8-min-Leistung/kg
+ergänzend; NP/kg nur aktivitätsbezogen anzeigen, nie als allgemeine Fitnesskennzahl.
+Technisch: FTP kommt als manuell gepflegte Historie (Wert + gültig-ab-Datum) — nicht über den
+Strava-Athletenscope; 20-/8-min-Bestwerte brauchen den Streams-Endpoint (per Aktivität, Rate-Limits)
+und sind ein späterer Ausbau.
+
+## Offene Punkte
+
+- **Verlauf** (Frage 2): Langzeit-Charts über Monate/Jahre (Gewicht + 7-Tage-Mittel, Körperfett/Muskel, Trainingszeit/hm/kJ, Kraft, Habits) — nächster größerer Baustein
+- **Insights** (Frage 3): Korrelationen aus eigenen Daten — Langfrist-Vision, braucht erst Monate an Habit-Daten
+- Dashboard-Ideen aus der Vision: heutiger Trainingsplan, kurze Handlungsempfehlung, offene Gewohnheiten hervorheben
 - Strava-Webhooks (vorbereitet durch Modul-Struktur, noch nicht gebaut)
 - Kalorien: Strava liefert sie nur im Detail-Endpoint, Liste nicht — bei Bedarf Detail-Fetch ergänzen
 - Deployment (angedachte Domain: strong.christoph-heim.de) — erst dann ist die PWA vom Handy installierbar
+- Mögliche spätere Quellen: Apple Health, Garmin, Oura, WHOOP (Adapter-Muster wie Strava/Withings)

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Activity;
 use App\Models\BodyMeasurement;
 use App\Models\DailyLog;
+use App\Models\StrengthSession;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\View\View;
@@ -49,6 +50,9 @@ class WeekController extends Controller
             'trainingThisWeek' => $trainingSeconds($start, $end),
             'trainingLastWeek' => $trainingSeconds($prevStart, $prevEnd),
             'activityCount' => Activity::where('user_id', $user->id)->whereBetween('started_at', [$start, $end])->count(),
+            'strengthCount' => StrengthSession::where('user_id', $user->id)
+                ->whereBetween('performed_at', [$start->toDateString(), $end->toDateString()])
+                ->count(),
             'feierabendDays' => $logs->where('feierabend', true)->count(),
             'mittagDays' => $logs->where('mittag_vorbereitet', true)->count(),
             'naschenCounts' => $logs->whereNotNull('naschen')->countBy('naschen'),

@@ -70,6 +70,9 @@
                 @php $trainingDelta = $trainingThisWeek - $trainingLastWeek; @endphp
                 · {{ $trainingDelta < 0 ? '−' : '+' }}{{ intdiv(abs($trainingDelta), 3600) }}:{{ str_pad((string) intdiv(abs($trainingDelta) % 3600, 60), 2, '0', STR_PAD_LEFT) }} h zur Vorwoche
             </p>
+            <p class="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
+                Krafttraining: {{ $strengthCount }} {{ $strengthCount === 1 ? 'Einheit' : 'Einheiten' }}
+            </p>
         </section>
 
         {{-- Gewohnheiten --}}

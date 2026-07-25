@@ -38,9 +38,10 @@ Die vollständige Produktvision steht in `docs/VISION.md` — vor größeren Ent
 3. `php artisan migrate && php artisan app:create-user <email>`
 4. OAuth-Redirect-URIs bei den Providern: `{APP_URL}/auth/strava/callback` bzw. `{APP_URL}/auth/withings/callback`
 
+- **PWA**: `public/manifest.webmanifest` + Icons (`public/icons/`, maskable mit 70%-Safe-Zone), Meta-Tags im Layout. Kein Service Worker (bewusst: kein Offline-Cache, keine Stale-Daten). Installation vom Handy setzt HTTPS-Erreichbarkeit voraus.
+
 ## Offene Punkte (Roadmap in docs/VISION.md)
 
 - Strava-Webhooks (vorbereitet durch Modul-Struktur, noch nicht gebaut)
 - Kalorien: Strava liefert sie nur im Detail-Endpoint, Liste nicht — bei Bedarf Detail-Fetch ergänzen
-- PWA-Manifest/Icons (Design-Ziel, bewusst nach v0.1 verschoben)
-- v1.0: PWA (Manifest + Icons, `public/app-icon.png` existiert schon), Feinschliff
+- Deployment (angedachte Domain: strong.christoph-heim.de) — erst dann ist die PWA vom Handy installierbar

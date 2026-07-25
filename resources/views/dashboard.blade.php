@@ -65,6 +65,21 @@
             @endif
         </section>
 
+        {{-- Leistung --}}
+        @if ($ftpWkg)
+            <section aria-labelledby="power-heading" class="rounded-2xl bg-white p-6 shadow-sm dark:bg-neutral-900">
+                <h2 id="power-heading" class="text-sm font-medium tracking-wide text-neutral-500 uppercase dark:text-neutral-400">
+                    Leistung
+                </h2>
+                <p class="mt-3 text-5xl font-semibold tracking-tight tabular-nums">
+                    {{ number_format($ftpWkg, 2, ',', '.') }}<span class="ml-1 text-2xl font-normal text-neutral-400">W/kg</span>
+                </p>
+                <p class="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
+                    FTP {{ $ftp->watts }} W · Test vom {{ $ftp->tested_at->isoFormat('D. MMMM') }}
+                </p>
+            </section>
+        @endif
+
         {{-- Training --}}
         <section aria-labelledby="training-heading" class="rounded-2xl bg-white p-6 shadow-sm dark:bg-neutral-900">
             <h2 id="training-heading" class="text-sm font-medium tracking-wide text-neutral-500 uppercase dark:text-neutral-400">
@@ -105,6 +120,12 @@
                         <div>
                             <dt class="text-xs text-neutral-500 dark:text-neutral-400">NP</dt>
                             <dd class="mt-1 text-lg font-medium tabular-nums">{{ $activity->np_watts }} W</dd>
+                        </div>
+                    @endif
+                    @if ($activityWkg)
+                        <div>
+                            <dt class="text-xs text-neutral-500 dark:text-neutral-400">NP/kg</dt>
+                            <dd class="mt-1 text-lg font-medium tabular-nums">{{ number_format($activityWkg, 1, ',', '.') }} W/kg</dd>
                         </div>
                     @endif
                 </dl>

@@ -29,6 +29,8 @@ Die vollständige Produktvision steht in `docs/VISION.md` — vor größeren Ent
 - **Krafttraining** (`/kraft`): `exercises` (Workout A/B, SoftDeletes — Löschen erhält Historie), `strength_sessions` + `strength_entries` (ein Eintrag pro Übung: Gewicht × Wdh. × Sätze, kein Einzelsatz-Logging). Eintragsformular füllt letzte Werte vor (Progression). Übungen ohne Wdh./Sätze werden beim Speichern übersprungen.
 - Kein `<fieldset>`/`<legend>` für Karten-Layouts — Browser rendern die Legend immer auf der Rahmenlinie; stattdessen `role="group"` + `aria-labelledby`.
 - **Monatsübersicht** (`/monat`): 12-Monats-Aggregation in `MonthController` per `strftime('%Y-%m', …)` — SQLite-spezifisch, bei PostgreSQL-Umstieg auf `to_char()` umstellen.
+- **Verlauf** (`/verlauf`): Langzeit-Charts als server-gerendertes SVG (`x-trend-chart`, keine Chart-Library). Zeiträume 6m/1j/alles; bei „alles" nur 7-Tage-Mittel ohne Einzelmesswerte. Unplausible Waagen-Messwerte (`HistoryController::PLAUSIBLE`) fliegen aus der *Auswertung*, bleiben aber in den Rohdaten.
+- **FTP**: manuell gepflegte Historie (`ftp_entries`, Formular auf /verlauf). Dashboard zeigt FTP/kg (aktuelle FTP ÷ letztes Gewicht) und NP/kg aktivitätsbezogen (Gewicht zum Aktivitätszeitpunkt).
 - Sync: `strava:sync` / `withings:sync`, Scheduler alle 6 h (`routes/console.php`) — braucht lokal `php artisan schedule:work` oder einen Cron.
 
 ## Setup nach Clone

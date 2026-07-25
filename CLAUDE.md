@@ -28,6 +28,7 @@ Die vollständige Produktvision steht in `docs/VISION.md` — vor größeren Ent
 - **Wochenübersicht** (`/woche`): Aggregation in `WeekController` (Ø Gewicht, Trainingszeit, Habit-Zähler, Kraft-Einheiten, 8-Wochen-Sparkline als inline SVG). Woche = ISO (Mo–So).
 - **Krafttraining** (`/kraft`): `exercises` (Workout A/B, SoftDeletes — Löschen erhält Historie), `strength_sessions` + `strength_entries` (ein Eintrag pro Übung: Gewicht × Wdh. × Sätze, kein Einzelsatz-Logging). Eintragsformular füllt letzte Werte vor (Progression). Übungen ohne Wdh./Sätze werden beim Speichern übersprungen.
 - Kein `<fieldset>`/`<legend>` für Karten-Layouts — Browser rendern die Legend immer auf der Rahmenlinie; stattdessen `role="group"` + `aria-labelledby`.
+- **Monatsübersicht** (`/monat`): 12-Monats-Aggregation in `MonthController` per `strftime('%Y-%m', …)` — SQLite-spezifisch, bei PostgreSQL-Umstieg auf `to_char()` umstellen.
 - Sync: `strava:sync` / `withings:sync`, Scheduler alle 6 h (`routes/console.php`) — braucht lokal `php artisan schedule:work` oder einen Cron.
 
 ## Setup nach Clone
@@ -42,4 +43,4 @@ Die vollständige Produktvision steht in `docs/VISION.md` — vor größeren Ent
 - Strava-Webhooks (vorbereitet durch Modul-Struktur, noch nicht gebaut)
 - Kalorien: Strava liefert sie nur im Detail-Endpoint, Liste nicht — bei Bedarf Detail-Fetch ergänzen
 - PWA-Manifest/Icons (Design-Ziel, bewusst nach v0.1 verschoben)
-- v0.4: Analytics (Monatsübersicht, Trends)
+- v1.0: PWA (Manifest + Icons, `public/app-icon.png` existiert schon), Feinschliff

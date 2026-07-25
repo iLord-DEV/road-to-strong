@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\HabitController;
+use App\Http\Controllers\MonthController;
 use App\Http\Controllers\StravaAuthController;
 use App\Http\Controllers\StrengthController;
 use App\Http\Controllers\WeekController;
@@ -18,6 +19,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/', DashboardController::class)->name('dashboard');
     Route::get('/woche', WeekController::class)->name('week');
+    Route::get('/monat', MonthController::class)->name('month');
     Route::post('/habit', [HabitController::class, 'update'])->name('habits.update');
 
     Route::get('/kraft', [StrengthController::class, 'index'])->name('strength.index');

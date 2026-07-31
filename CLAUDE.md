@@ -31,6 +31,7 @@ Die vollständige Produktvision steht in `docs/VISION.md` — vor größeren Ent
 - **Monatsübersicht** (`/monat`): 12-Monats-Aggregation in `MonthController` per `strftime('%Y-%m', …)` — SQLite-spezifisch, bei PostgreSQL-Umstieg auf `to_char()` umstellen.
 - **Verlauf** (`/verlauf`): Langzeit-Charts als server-gerendertes SVG (`x-trend-chart`, keine Chart-Library). Zeiträume 6m/1j/alles; bei „alles" nur 7-Tage-Mittel ohne Einzelmesswerte. Unplausible Waagen-Messwerte (`HistoryController::PLAUSIBLE`) fliegen aus der *Auswertung*, bleiben aber in den Rohdaten.
 - **FTP**: manuell gepflegte Historie (`ftp_entries`, Formular auf /verlauf). Dashboard zeigt FTP/kg (aktuelle FTP ÷ letztes Gewicht) und NP/kg aktivitätsbezogen (Gewicht zum Aktivitätszeitpunkt).
+- **Rezepte** (`/rezepte`): Rubriken morgens/mittags/abends/snack, Sterne 1–5 für Geschmack/Aufwand/Kalorien (Kalorien-Sterne relativ zur Rubrik, 5 = sehr leicht; erneuter Tipp löscht). `RecipeSeeder` befüllt 40 Startgerichte, überschreibt aber nie eine bestehende Sammlung — auf dem Pi einmalig per `docker exec road-to-strong php artisan db:seed --class=RecipeSeeder --force`. Bewusst ohne LLM (Entscheidung 31.07.2026: Chatbot-Coach zurückgestellt, bis Habit-Daten existieren; Datenschutz-Grundsatzfrage).
 - Sync: `strava:sync` / `withings:sync`, Scheduler alle 6 h (`routes/console.php`) — braucht lokal `php artisan schedule:work` oder einen Cron.
 
 ## Deployment (Heimserver / Pi)

@@ -36,4 +36,11 @@
     >
         Kraft
     </a>
+    <a
+        href="{{ route('recipes.index') }}"
+        @if ($active === 'rezepte') aria-current="page" @endif
+        class="flex min-h-11 items-center text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900 dark:focus-visible:outline-neutral-100 {{ $active === 'rezepte' ? 'font-semibold' : 'text-neutral-400 dark:text-neutral-500' }}"
+    >
+        Rezepte
+    </a>
 </nav>

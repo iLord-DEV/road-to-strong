@@ -7,6 +7,7 @@ use App\Http\Controllers\FtpController;
 use App\Http\Controllers\HabitController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\MonthController;
+use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\StravaAuthController;
 use App\Http\Controllers\StrengthController;
 use App\Http\Controllers\WeekController;
@@ -26,6 +27,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/ftp', [FtpController::class, 'store'])->name('ftp.store');
     Route::delete('/ftp/{ftpEntry}', [FtpController::class, 'destroy'])->name('ftp.destroy');
     Route::post('/habit', [HabitController::class, 'update'])->name('habits.update');
+
+    Route::get('/rezepte', [RecipeController::class, 'index'])->name('recipes.index');
+    Route::post('/rezepte', [RecipeController::class, 'store'])->name('recipes.store');
+    Route::get('/rezepte/{recipe}', [RecipeController::class, 'show'])->name('recipes.show');
+    Route::get('/rezepte/{recipe}/bearbeiten', [RecipeController::class, 'edit'])->name('recipes.edit');
+    Route::put('/rezepte/{recipe}', [RecipeController::class, 'update'])->name('recipes.update');
+    Route::post('/rezepte/{recipe}/bewertung', [RecipeController::class, 'rate'])->name('recipes.rate');
+    Route::delete('/rezepte/{recipe}', [RecipeController::class, 'destroy'])->name('recipes.destroy');
 
     Route::get('/kraft', [StrengthController::class, 'index'])->name('strength.index');
     Route::get('/kraft/neu', [StrengthController::class, 'create'])->name('strength.create');

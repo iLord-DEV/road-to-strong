@@ -33,6 +33,15 @@ Die vollständige Produktvision steht in `docs/VISION.md` — vor größeren Ent
 - **FTP**: manuell gepflegte Historie (`ftp_entries`, Formular auf /verlauf). Dashboard zeigt FTP/kg (aktuelle FTP ÷ letztes Gewicht) und NP/kg aktivitätsbezogen (Gewicht zum Aktivitätszeitpunkt).
 - Sync: `strava:sync` / `withings:sync`, Scheduler alle 6 h (`routes/console.php`) — braucht lokal `php artisan schedule:work` oder einen Cron.
 
+## Deployment (Heimserver / Pi)
+
+- Läuft als Docker-Compose-Projekt unter `/mnt/piStorage/docker/road-to-strong/` auf dem Pi („heimserver"), erreichbar **nur im Tailnet**: `http://100.102.83.46:3008` (Port in der zentralen `PORTS.md` auf dem Pi registriert, bewusst an die Tailscale-IP gebunden).
+- **`make deploy`** = rsync + `docker compose up -d --build` auf dem Pi (Muster wie dart-sheet). `make logs` zeigt Container-Logs.
+- Zwei Container: `road-to-strong` (App via `php artisan serve`, für Single-User ausreichend) und `road-to-strong-scheduler` (`schedule:work` = Sync alle 6 h — kein Host-Cron nötig).
+- **Server ist die Quelle** für `.env` und `data/database.sqlite` (Volume) — `deploy.sh` überschreibt beides nie; `.env.production` (lokal, gitignored) wird nur beim Erstdeploy kopiert. Der `APP_KEY` muss dem lokalen entsprechen, sonst sind die OAuth-Tokens unlesbar.
+- OAuth-Callbacks bei Strava/Withings zeigen noch auf localhost — nur relevant, falls neu verbunden werden muss; laufende Token-Refreshes brauchen keine Callback-URL.
+- Gefixt beim Deploy: `USER_HEIGHT_M` muss in **Metern** (1.78) angegeben werden, nicht cm — BMI-Werte wurden rückwirkend neu berechnet.
+
 ## Setup nach Clone
 
 1. `composer install && npm install && npm run build`

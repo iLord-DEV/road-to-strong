@@ -4,18 +4,21 @@ Dein persönliches Gesundheitscockpit: Training und Körperdaten kommen automati
 
 ---
 
-## App starten
+## App aufrufen
+
+Die App läuft dauerhaft auf dem Heimserver und ist von allen Geräten im Tailnet erreichbar:
+
+**http://100.102.83.46:3008**
+
+Am iPhone: Safari → Teilen → **„Zum Home-Bildschirm"** — dann liegt sie als App-Icon da.
+
+Anmelden mit E-Mail und Passwort. Passwort ändern (fragt interaktiv):
 
 ```bash
-php artisan serve            # App auf http://localhost:8000
-php artisan schedule:work    # automatischer Sync (in zweitem Terminal)
+ssh -t heimserver "cd /mnt/piStorage/docker/road-to-strong && docker compose exec road-to-strong php artisan app:create-user info@webdesign-heim.de"
 ```
 
-Anmelden mit E-Mail und Passwort. Passwort ändern:
-
-```bash
-php artisan app:create-user info@webdesign-heim.de
-```
+Für die lokale Entwicklung weiterhin: `php artisan serve` (localhost:8000). Deployen: `make deploy`.
 
 ---
 
@@ -84,12 +87,15 @@ Die Zugangsdaten der API-Apps stehen in der `.env` (`STRAVA_CLIENT_ID` usw.).
 
 | Befehl | Zweck |
 |---|---|
-| `php artisan serve` | App starten |
-| `php artisan schedule:work` | automatischer Sync alle 6 h |
-| `php artisan strava:sync` | Aktivitäten sofort importieren |
+| `make deploy` | neue Version auf den Heimserver bringen |
+| `make logs` | Container-Logs auf dem Heimserver ansehen |
+| `php artisan serve` | lokalen Entwicklungsserver starten |
+| `php artisan strava:sync` | Aktivitäten sofort importieren (auf dem Pi: `docker exec road-to-strong php artisan strava:sync`) |
 | `php artisan withings:sync` | Messungen sofort importieren |
 | `php artisan app:create-user <email>` | Benutzer anlegen / Passwort ändern |
 | `php artisan test` | Tests ausführen |
+
+Der automatische Sync (alle 6 h) läuft als eigener Container auf dem Pi — kein Terminal, kein Cron nötig.
 
 ---
 

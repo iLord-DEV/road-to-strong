@@ -1,0 +1,22 @@
+services:
+  road-to-strong:
+    build: .
+    container_name: road-to-strong
+    restart: unless-stopped
+    ports:
+      # Nur über Tailscale erreichbar — Gesundheitsdaten nicht ins LAN exponieren
+      - "100.102.83.46:3008:8080"
+    env_file: .env
+    volumes:
+      - /mnt/piStorage/docker/road-to-strong/data:/data
+
+  road-to-strong-scheduler:
+    build: .
+    container_name: road-to-strong-scheduler
+    restart: unless-stopped
+    entrypoint: ["php", "artisan", "schedule:work"]
+    env_file: .env
+    volumes:
+      - /mnt/piStorage/docker/road-to-strong/data:/data
+    depends_on:
+      - road-to-strong

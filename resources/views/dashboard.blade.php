@@ -156,6 +156,7 @@
                             <x-habit-option field="schlaf" :value="$value" :label="$value" :current="$log?->schlaf" />
                         @endforeach
                     </div>
+                    <p class="mt-1.5 text-xs text-neutral-400 dark:text-neutral-500">1 = schlecht geschlafen · 5 = tief und erholt</p>
                 </div>
 
                 <div>
@@ -165,6 +166,7 @@
                             <x-habit-option field="energie" :value="$value" :label="$value" :current="$log?->energie" />
                         @endforeach
                     </div>
+                    <p class="mt-1.5 text-xs text-neutral-400 dark:text-neutral-500">1 = völlig platt · 5 = voller Tatendrang</p>
                 </div>
 
                 <div>
@@ -199,6 +201,7 @@
                             <x-habit-option field="craving" :value="$value" :label="$value" :current="$log?->craving" />
                         @endforeach
                     </div>
+                    <p class="mt-1.5 text-xs text-neutral-400 dark:text-neutral-500">0 = kein Verlangen · 3 = starkes Verlangen</p>
                 </div>
             </div>
         </section>

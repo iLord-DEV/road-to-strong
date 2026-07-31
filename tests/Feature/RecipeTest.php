@@ -22,9 +22,16 @@ class RecipeTest extends TestCase
             $this->assertSame(10, Recipe::where('user_id', $user->id)->where('category', $category)->count());
         }
 
-        // Seeder must not duplicate an existing collection
+        // Re-seeding must not duplicate, but refresh seed texts —
+        // while personal ratings stay untouched
+        $recipe = Recipe::firstWhere('name', 'Banane');
+        $recipe->update(['description' => 'kaputt', 'stars_geschmack' => 5]);
+
         $this->seed(RecipeSeeder::class);
+
         $this->assertSame(40, Recipe::where('user_id', $user->id)->count());
+        $this->assertSame('1 Banane', $recipe->fresh()->description);
+        $this->assertSame(5, $recipe->fresh()->stars_geschmack);
     }
 
     public function test_recipe_can_be_added_shown_edited_and_removed(): void

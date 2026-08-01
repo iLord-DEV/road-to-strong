@@ -59,6 +59,11 @@ Vier Ebenen: **Heute** (was tun?) → **Kennzahlen** (wo stehe ich?) → **Verla
 nicht ins Produkt. Tägliche Eingabe < 60 Sekunden. Diagramme sind erwünscht, wenn sie Trends zeigen
 (Langzeitjournal) — nicht um Tagesschwankungen zu dramatisieren.
 
+**Bewusst abgelehnt** (31.07.2026): Kalorien-Tracking unter „Heute" — die Waage (7-Tage-Mittel) ist die
+Kalorienbilanz, die Habits sind die Hebel; Rezept-kcal dienen der Entscheidung, nicht der Buchhaltung.
+Falls der Gewichtstrend später stagniert und die Habits es nicht erklären: Mittelweg „Essen heute:
+leicht/normal/üppig" (ein Tipp abends), keine Zahlen.
+
 **W/kg-Regeln** (Details in VISION.md): FTP/kg ist die Hauptkennzahl; beste 20-min-/8-min-Leistung/kg
 ergänzend; NP/kg nur aktivitätsbezogen anzeigen, nie als allgemeine Fitnesskennzahl.
 Technisch: FTP kommt als manuell gepflegte Historie (Wert + gültig-ab-Datum) — nicht über den

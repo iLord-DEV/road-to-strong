@@ -13,11 +13,13 @@ class DailyLog extends Model
      */
     public const FIELDS = [
         'schlaf' => [1, 2, 3, 4, 5],
+        'durchgeschlafen' => [1, 0],
         'energie' => [1, 2, 3, 4, 5],
         'mittag_vorbereitet' => [1, 0],
         'feierabend' => [1, 0],
         'naschen' => ['keines', 'bewusst', 'automatisch'],
         'craving' => [0, 1, 2, 3],
+        'cannabis_vortag' => [1, 0],
     ];
 
     protected $fillable = [
@@ -28,7 +30,9 @@ class DailyLog extends Model
         'naschen',
         'craving',
         'schlaf',
+        'durchgeschlafen',
         'energie',
+        'cannabis_vortag',
     ];
 
     protected function casts(): array
@@ -37,6 +41,8 @@ class DailyLog extends Model
             'date' => 'date',
             'feierabend' => 'boolean',
             'mittag_vorbereitet' => 'boolean',
+            'durchgeschlafen' => 'boolean',
+            'cannabis_vortag' => 'boolean',
         ];
     }
 

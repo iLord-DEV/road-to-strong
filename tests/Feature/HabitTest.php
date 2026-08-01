@@ -48,6 +48,18 @@ class HabitTest extends TestCase
         $this->assertNull(DailyLog::firstWhere('user_id', $user->id)->feierabend);
     }
 
+    public function test_new_boolean_fields_are_storable(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)->post('/habit', ['field' => 'durchgeschlafen', 'value' => '1']);
+        $this->actingAs($user)->post('/habit', ['field' => 'cannabis_vortag', 'value' => '0']);
+
+        $log = DailyLog::firstWhere('user_id', $user->id);
+        $this->assertTrue($log->durchgeschlafen);
+        $this->assertFalse($log->cannabis_vortag);
+    }
+
     public function test_invalid_field_and_value_are_rejected(): void
     {
         $user = User::factory()->create();

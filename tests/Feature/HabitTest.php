@@ -60,6 +60,17 @@ class HabitTest extends TestCase
         $this->assertFalse($log->cannabis_vortag);
     }
 
+    public function test_mittag_is_hidden_on_weekends(): void
+    {
+        $user = User::factory()->create();
+
+        $this->travelTo(now()->next('Saturday'));
+        $this->actingAs($user)->get('/')->assertOk()->assertDontSee('Mittag vorbereitet');
+
+        $this->travelTo(now()->next('Wednesday'));
+        $this->actingAs($user)->get('/')->assertOk()->assertSee('Mittag vorbereitet');
+    }
+
     public function test_invalid_field_and_value_are_rejected(): void
     {
         $user = User::factory()->create();

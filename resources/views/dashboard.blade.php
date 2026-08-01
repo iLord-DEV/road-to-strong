@@ -177,13 +177,16 @@
                     <p class="mt-1.5 text-xs text-neutral-400 dark:text-neutral-500">1 = völlig platt · 5 = voller Tatendrang</p>
                 </div>
 
-                <div>
-                    <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Mittag vorbereitet</h3>
-                    <div class="mt-2 flex flex-wrap gap-2">
-                        <x-habit-option field="mittag_vorbereitet" value="1" label="Ja" :current="$log?->mittag_vorbereitet" />
-                        <x-habit-option field="mittag_vorbereitet" value="0" label="Nein" :current="$log?->mittag_vorbereitet" />
+                {{-- Nur an Arbeitstagen relevant — am Wochenende gibt es kein Mittags-Problem --}}
+                @unless (now()->isWeekend())
+                    <div>
+                        <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Mittag vorbereitet</h3>
+                        <div class="mt-2 flex flex-wrap gap-2">
+                            <x-habit-option field="mittag_vorbereitet" value="1" label="Ja" :current="$log?->mittag_vorbereitet" />
+                            <x-habit-option field="mittag_vorbereitet" value="0" label="Nein" :current="$log?->mittag_vorbereitet" />
+                        </div>
                     </div>
-                </div>
+                @endunless
 
                 <div>
                     <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Feierabend eingehalten</h3>

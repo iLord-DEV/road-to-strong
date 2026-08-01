@@ -71,6 +71,43 @@ class HabitTest extends TestCase
         $this->actingAs($user)->get('/')->assertOk()->assertSee('Mittag vorbereitet');
     }
 
+    public function test_habits_can_be_backfilled_within_three_days(): void
+    {
+        $user = User::factory()->create();
+        $twoDaysAgo = today()->subDays(2);
+
+        $this->actingAs($user)->get('/nachtrag/'.$twoDaysAgo->toDateString())
+            ->assertOk()
+            ->assertSee('Nachtrag');
+
+        $this->actingAs($user)->post('/habit', [
+            'field' => 'feierabend',
+            'value' => '1',
+            'date' => $twoDaysAgo->toDateString(),
+        ]);
+
+        $log = DailyLog::firstWhere('user_id', $user->id);
+        $this->assertSame($twoDaysAgo->toDateString(), $log->date->toDateString());
+        $this->assertTrue($log->feierabend);
+    }
+
+    public function test_backfill_outside_window_is_rejected(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)->get('/nachtrag/'.today()->subDays(4)->toDateString())->assertNotFound();
+        $this->actingAs($user)->get('/nachtrag/'.today()->addDay()->toDateString())->assertNotFound();
+        $this->actingAs($user)->get('/nachtrag/unsinn')->assertNotFound();
+
+        $this->actingAs($user)->post('/habit', [
+            'field' => 'feierabend',
+            'value' => '1',
+            'date' => today()->subDays(4)->toDateString(),
+        ])->assertNotFound();
+
+        $this->assertSame(0, DailyLog::count());
+    }
+
     public function test_invalid_field_and_value_are_rejected(): void
     {
         $user = User::factory()->create();

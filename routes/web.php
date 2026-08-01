@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/ftp', [FtpController::class, 'store'])->name('ftp.store');
     Route::delete('/ftp/{ftpEntry}', [FtpController::class, 'destroy'])->name('ftp.destroy');
     Route::post('/habit', [HabitController::class, 'update'])->name('habits.update');
+    Route::get('/nachtrag/{date}', [HabitController::class, 'backfill'])->name('habits.backfill');
 
     Route::get('/rezepte', [RecipeController::class, 'index'])->name('recipes.index');
     Route::post('/rezepte', [RecipeController::class, 'store'])->name('recipes.store');

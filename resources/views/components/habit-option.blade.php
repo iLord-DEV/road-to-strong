@@ -1,4 +1,4 @@
-@props(['field', 'value', 'label', 'current' => null])
+@props(['field', 'value', 'label', 'current' => null, 'date' => null])
 
 @php
     $selected = $current !== null
@@ -9,6 +9,9 @@
     @csrf
     <input type="hidden" name="field" value="{{ $field }}">
     <input type="hidden" name="value" value="{{ $value }}">
+    @if ($date)
+        <input type="hidden" name="date" value="{{ $date->toDateString() }}">
+    @endif
     <button
         type="submit"
         aria-pressed="{{ $selected ? 'true' : 'false' }}"

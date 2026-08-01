@@ -146,16 +146,20 @@
         @include('partials.habits-card', ['log' => $log, 'day' => today()])
 
         {{-- Nachtrag: die letzten 3 Tage bleiben editierbar --}}
-        <p class="text-sm text-neutral-400 dark:text-neutral-500">
-            Nachtragen:
-            @foreach (range(1, \App\Http\Controllers\HabitController::BACKFILL_DAYS) as $daysAgo)
-                @php $day = today()->subDays($daysAgo); @endphp
-                <a
-                    href="{{ route('habits.backfill', $day->toDateString()) }}"
-                    class="inline-flex min-h-11 items-center underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900 dark:focus-visible:outline-neutral-100"
-                >{{ $daysAgo === 1 ? 'Gestern' : $day->isoFormat('dd, D.M.') }}</a>@if (! $loop->last) · @endif
-            @endforeach
-        </p>
+        <section aria-label="Nachtragen" class="rounded-2xl bg-white p-6 shadow-sm dark:bg-neutral-900">
+            <h2 class="text-sm font-medium tracking-wide text-neutral-500 uppercase dark:text-neutral-400">
+                Vergessen? Nachtragen
+            </h2>
+            <div class="mt-3 flex flex-wrap gap-2">
+                @foreach (range(1, \App\Http\Controllers\HabitController::BACKFILL_DAYS) as $daysAgo)
+                    @php $day = today()->subDays($daysAgo); @endphp
+                    <a
+                        href="{{ route('habits.backfill', $day->toDateString()) }}"
+                        class="inline-flex min-h-11 items-center rounded-full bg-neutral-100 px-4 text-sm font-medium text-neutral-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900 dark:bg-neutral-800 dark:text-neutral-300 dark:focus-visible:outline-neutral-100"
+                    >{{ $daysAgo === 1 ? 'Gestern' : $day->isoFormat('dd, D. MMM') }}</a>
+                @endforeach
+            </div>
+        </section>
 
     </div>
 </x-layout>

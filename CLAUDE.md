@@ -32,13 +32,13 @@ Die vollständige Produktvision steht in `docs/VISION.md` — vor größeren Ent
 - **Verlauf** (`/verlauf`): Langzeit-Charts als server-gerendertes SVG (`x-trend-chart`, keine Chart-Library). Zeiträume 6m/1j/alles; bei „alles" nur 7-Tage-Mittel ohne Einzelmesswerte. Unplausible Waagen-Messwerte (`HistoryController::PLAUSIBLE`) fliegen aus der *Auswertung*, bleiben aber in den Rohdaten.
 - **FTP**: manuell gepflegte Historie (`ftp_entries`, Formular auf /verlauf). Dashboard zeigt FTP/kg (aktuelle FTP ÷ letztes Gewicht) und NP/kg aktivitätsbezogen (Gewicht zum Aktivitätszeitpunkt).
 - **Rezepte** (`/rezepte`): Rubriken morgens/mittags/abends/snack, Sterne 1–5 für Geschmack/Aufwand/Kalorien (Kalorien-Sterne relativ zur Rubrik, 5 = sehr leicht; erneuter Tipp löscht). `RecipeSeeder` befüllt 40 Startgerichte, überschreibt aber nie eine bestehende Sammlung — auf dem Pi einmalig per `docker exec road-to-strong php artisan db:seed --class=RecipeSeeder --force`. Bewusst ohne LLM (Entscheidung 31.07.2026: Chatbot-Coach zurückgestellt, bis Habit-Daten existieren; Datenschutz-Grundsatzfrage).
-- Sync: `strava:sync` / `withings:sync`, Scheduler alle 6 h (`routes/console.php`) — braucht lokal `php artisan schedule:work` oder einen Cron.
+- Sync: `strava:sync` / `withings:sync`, Scheduler stündlich (`routes/console.php`) — braucht lokal `php artisan schedule:work` oder einen Cron.
 
 ## Deployment (Heimserver / Pi)
 
 - Läuft als Docker-Compose-Projekt unter `/mnt/piStorage/docker/road-to-strong/` auf dem Pi („heimserver"), erreichbar **nur im Tailnet**: `http://100.102.83.46:3008` (Port in der zentralen `PORTS.md` auf dem Pi registriert, bewusst an die Tailscale-IP gebunden).
 - **`make deploy`** = rsync + `docker compose up -d --build` auf dem Pi (Muster wie dart-sheet). `make logs` zeigt Container-Logs.
-- Zwei Container: `road-to-strong` (App via `php artisan serve`, für Single-User ausreichend) und `road-to-strong-scheduler` (`schedule:work` = Sync alle 6 h — kein Host-Cron nötig).
+- Zwei Container: `road-to-strong` (App via `php artisan serve`, für Single-User ausreichend) und `road-to-strong-scheduler` (`schedule:work` = Sync stündlich — kein Host-Cron nötig).
 - **Server ist die Quelle** für `.env` und `data/database.sqlite` (Volume) — `deploy.sh` überschreibt beides nie; `.env.production` (lokal, gitignored) wird nur beim Erstdeploy kopiert. Der `APP_KEY` muss dem lokalen entsprechen, sonst sind die OAuth-Tokens unlesbar.
 - OAuth-Callbacks bei Strava/Withings zeigen noch auf localhost — nur relevant, falls neu verbunden werden muss; laufende Token-Refreshes brauchen keine Callback-URL.
 - Gefixt beim Deploy: `USER_HEIGHT_M` muss in **Metern** (1.78) angegeben werden, nicht cm — BMI-Werte wurden rückwirkend neu berechnet.

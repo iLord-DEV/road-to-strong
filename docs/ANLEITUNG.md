@@ -48,7 +48,7 @@ Für die lokale Entwicklung weiterhin: `php artisan serve` (localhost:8000). Dep
 
 ### Rad, Rudern & Co. (automatisch)
 
-Alle Strava-Aktivitäten werden automatisch importiert — alle 6 Stunden, solange `schedule:work` (oder ein Cron) läuft. Sofort importieren:
+Alle Strava-Aktivitäten werden automatisch importiert — stündlich, solange `schedule:work` (oder ein Cron) läuft. Sofort importieren:
 
 ```bash
 php artisan strava:sync
@@ -95,7 +95,7 @@ Die Zugangsdaten der API-Apps stehen in der `.env` (`STRAVA_CLIENT_ID` usw.).
 | `php artisan app:create-user <email>` | Benutzer anlegen / Passwort ändern |
 | `php artisan test` | Tests ausführen |
 
-Der automatische Sync (alle 6 h) läuft als eigener Container auf dem Pi — kein Terminal, kein Cron nötig.
+Der automatische Sync (stündlich) läuft als eigener Container auf dem Pi — kein Terminal, kein Cron nötig.
 
 ---
 

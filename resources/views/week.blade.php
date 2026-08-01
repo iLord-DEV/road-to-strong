@@ -81,30 +81,26 @@
                 Gewohnheiten
             </h2>
             @if ($loggedDays > 0)
-                <dl class="mt-4 space-y-3">
-                    <div class="flex items-baseline justify-between gap-4">
-                        <dt class="text-sm text-neutral-500 dark:text-neutral-400">Feierabend eingehalten</dt>
-                        <dd class="font-medium tabular-nums">{{ $feierabendDays }} {{ $feierabendDays === 1 ? 'Tag' : 'Tage' }}</dd>
+                <div class="mt-4 overflow-x-auto">
+                    <div class="grid grid-cols-[7.5rem_repeat(7,1.25rem)] gap-x-1.5 pb-1" aria-hidden="true">
+                        <span></span>
+                        @foreach (['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'] as $day)
+                            <span class="text-center text-xs text-neutral-400 dark:text-neutral-500">{{ substr($day, 0, 1) }}</span>
+                        @endforeach
                     </div>
-                    <div class="flex items-baseline justify-between gap-4">
-                        <dt class="text-sm text-neutral-500 dark:text-neutral-400">Mittag vorbereitet</dt>
-                        <dd class="font-medium tabular-nums">{{ $mittagDays }} {{ $mittagDays === 1 ? 'Tag' : 'Tage' }}</dd>
+                    <div class="space-y-2.5">
+                        @foreach ($habitRows as $row)
+                            <x-habit-dots :row="$row" />
+                        @endforeach
                     </div>
-                    <div class="flex items-baseline justify-between gap-4">
-                        <dt class="text-sm text-neutral-500 dark:text-neutral-400">Naschen</dt>
-                        <dd class="font-medium">
-                            @if ($naschenCounts->isEmpty())
-                                —
-                            @else
-                                {{ $naschenCounts->map(fn ($count, $kind) => ucfirst($kind).' '.$count)->implode(' · ') }}
-                            @endif
-                        </dd>
-                    </div>
-                    <div class="flex items-baseline justify-between gap-4">
-                        <dt class="text-sm text-neutral-500 dark:text-neutral-400">Schlaf Ø</dt>
-                        <dd class="font-medium tabular-nums">{{ $schlafAvg !== null ? number_format($schlafAvg, 1, ',', '.') : '—' }}</dd>
-                    </div>
-                </dl>
+                </div>
+                <p class="mt-4 text-sm text-neutral-500 tabular-nums dark:text-neutral-400">
+                    Schlaf Ø {{ $schlafAvg !== null ? number_format($schlafAvg, 1, ',', '.') : '—' }}
+                    · Craving Ø {{ $cravingAvg !== null ? number_format($cravingAvg, 1, ',', '.') : '—' }}
+                </p>
+                <p class="mt-2 text-xs text-neutral-400 dark:text-neutral-500">
+                    ● Ja · ○ Nein · kleiner Punkt = nicht erfasst — Naschen: ● keines · ◉ bewusst · ○ automatisch
+                </p>
             @else
                 <p class="mt-3 text-neutral-500 dark:text-neutral-400">Diese Woche noch nichts erfasst.</p>
             @endif

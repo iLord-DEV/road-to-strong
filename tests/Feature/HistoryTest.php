@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Activity;
 use App\Models\BodyMeasurement;
+use App\Models\DailyLog;
 use App\Models\FtpEntry;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -49,6 +50,28 @@ class HistoryTest extends TestCase
             ->assertSee('Training pro Monat')
             ->assertSee('polyline', false)
             ->assertSee('FTP-Historie');
+    }
+
+    public function test_habit_charts_appear_with_weekly_data(): void
+    {
+        $user = User::factory()->create();
+
+        // Logs across three weeks -> three weekly data points per line
+        foreach ([21, 14, 7, 1] as $daysAgo) {
+            DailyLog::create([
+                'user_id' => $user->id,
+                'date' => now()->subDays($daysAgo),
+                'schlaf' => 4,
+                'energie' => 3,
+                'feierabend' => true,
+                'mittag_vorbereitet' => $daysAgo > 7,
+            ]);
+        }
+
+        $this->actingAs($user)->get('/verlauf?zeitraum=6m')
+            ->assertOk()
+            ->assertSee('Schlaf &amp; Energie', false)
+            ->assertSee('Gewohnheiten-Quote');
     }
 
     public function test_history_page_without_data(): void

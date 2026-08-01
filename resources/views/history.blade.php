@@ -97,6 +97,22 @@
             </section>
         @endif
 
+        @if ($sleepChart)
+            <x-trend-chart
+                title="Schlaf & Energie"
+                :chart="$sleepChart"
+                subline="Wochenmittel — dunkle Linie: Schlaf, helle Linie: Energie"
+            />
+        @endif
+
+        @if ($habitChart)
+            <x-trend-chart
+                title="Gewohnheiten-Quote"
+                :chart="$habitChart"
+                subline="Anteil eingehaltener Tage pro Woche — dunkel: Feierabend, hell: Mittag vorbereitet"
+            />
+        @endif
+
         {{-- FTP-Historie --}}
         <section aria-labelledby="ftp-heading" class="rounded-2xl bg-white p-6 shadow-sm dark:bg-neutral-900">
             <h2 id="ftp-heading" class="text-sm font-medium tracking-wide text-neutral-500 uppercase dark:text-neutral-400">

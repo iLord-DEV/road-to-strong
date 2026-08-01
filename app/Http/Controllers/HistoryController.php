@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Activity;
 use App\Models\BodyMeasurement;
+use App\Models\DailyLog;
 use App\Models\FtpEntry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -53,8 +54,71 @@ class HistoryController extends Controller
                 ['values' => $this->dailyAverages($measurements, 'muscle_mass_kg'), 'class' => 'text-neutral-900 dark:text-neutral-100', 'width' => 1.8],
             ], 'kg'),
             'training' => $this->trainingByMonth($user->id, $from),
+            'sleepChart' => $this->sleepEnergyChart($user->id, $from),
+            'habitChart' => $this->habitQuotaChart($user->id, $from),
             'ftpEntries' => FtpEntry::where('user_id', $user->id)->orderByDesc('tested_at')->get(),
         ]);
+    }
+
+    /**
+     * Weekly averages of the 1-5 scales: sleep (strong) and energy (light).
+     */
+    private function sleepEnergyChart(int $userId, ?Carbon $from): ?array
+    {
+        $byWeek = $this->logsByWeek($userId, $from);
+
+        return $this->lineChart([
+            [
+                'values' => $byWeek->map(fn ($logs) => $logs->whereNotNull('schlaf')->avg('schlaf'))
+                    ->filter(fn ($v) => $v !== null)->map(fn ($v) => round($v, 2)),
+                'class' => 'text-neutral-900 dark:text-neutral-100',
+                'width' => 1.8,
+            ],
+            [
+                'values' => $byWeek->map(fn ($logs) => $logs->whereNotNull('energie')->avg('energie'))
+                    ->filter(fn ($v) => $v !== null)->map(fn ($v) => round($v, 2)),
+                'class' => 'text-neutral-400 dark:text-neutral-600',
+                'width' => 1.2,
+            ],
+        ], 'Ø');
+    }
+
+    /**
+     * Weekly adherence quotas: Feierabend (strong) and Mittag (light),
+     * as percentage of days that were actually logged.
+     */
+    private function habitQuotaChart(int $userId, ?Carbon $from): ?array
+    {
+        $byWeek = $this->logsByWeek($userId, $from);
+
+        $quota = fn ($logs, string $field) => ($logged = $logs->whereNotNull($field))->isEmpty()
+            ? null
+            : round($logged->filter(fn ($log) => $log->{$field})->count() / $logged->count() * 100);
+
+        return $this->lineChart([
+            [
+                'values' => $byWeek->map(fn ($logs) => $quota($logs, 'feierabend'))->filter(fn ($v) => $v !== null),
+                'class' => 'text-neutral-900 dark:text-neutral-100',
+                'width' => 1.8,
+            ],
+            [
+                'values' => $byWeek->map(fn ($logs) => $quota($logs, 'mittag_vorbereitet'))->filter(fn ($v) => $v !== null),
+                'class' => 'text-neutral-400 dark:text-neutral-600',
+                'width' => 1.2,
+            ],
+        ], '%');
+    }
+
+    /**
+     * @return Collection<string, Collection<int, DailyLog>>
+     */
+    private function logsByWeek(int $userId, ?Carbon $from): Collection
+    {
+        return DailyLog::where('user_id', $userId)
+            ->when($from, fn ($q) => $q->where('date', '>=', $from->toDateString()))
+            ->orderBy('date')
+            ->get()
+            ->groupBy(fn (DailyLog $log) => $log->date->copy()->startOfWeek()->toDateString());
     }
 
     /**

@@ -50,8 +50,9 @@ class WeekTest extends TestCase
             ->assertSee('78,4')
             ->assertSee('1:00')
             ->assertSee('1 Einheit')
-            ->assertSee('Feierabend eingehalten')
-            ->assertSee('Keines 1');
+            ->assertSee('Feierabend eingehalten, Di: Ja', false)
+            ->assertSee('Naschen, Di: keines', false)
+            ->assertSee('Schlaf Ø 4,0');
     }
 
     public function test_week_page_without_data(): void

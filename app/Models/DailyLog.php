@@ -15,7 +15,9 @@ class DailyLog extends Model
         'schlaf' => [1, 2, 3, 4, 5],
         'durchgeschlafen' => [1, 0],
         'energie' => [1, 2, 3, 4, 5],
+        'arbeitsbeginn' => [6, 7, 8, 9, 10],
         'mittag_vorbereitet' => [1, 0],
+        'mittagspause' => [1, 0],
         'feierabend' => [1, 0],
         'naschen' => ['keines', 'bewusst', 'automatisch'],
         'craving' => [0, 1, 2, 3],
@@ -27,11 +29,13 @@ class DailyLog extends Model
         'date',
         'feierabend',
         'mittag_vorbereitet',
+        'mittagspause',
         'naschen',
         'craving',
         'schlaf',
         'durchgeschlafen',
         'energie',
+        'arbeitsbeginn',
         'cannabis_vortag',
     ];
 
@@ -41,6 +45,7 @@ class DailyLog extends Model
             'date' => 'date',
             'feierabend' => 'boolean',
             'mittag_vorbereitet' => 'boolean',
+            'mittagspause' => 'boolean',
             'durchgeschlafen' => 'boolean',
             'cannabis_vortag' => 'boolean',
         ];

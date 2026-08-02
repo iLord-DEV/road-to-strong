@@ -33,13 +33,31 @@
             <p class="mt-1.5 text-xs text-neutral-400 dark:text-neutral-500">1 = völlig platt · 5 = voller Tatendrang</p>
         </div>
 
-        {{-- Nur an Arbeitstagen relevant — am Wochenende gibt es kein Mittags-Problem --}}
+        {{-- Nur an Arbeitstagen relevant — am Wochenende gibt es keinen Arbeitstag zu protokollieren --}}
         @unless ($day->isWeekend())
+            <div>
+                <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Arbeitsbeginn</h3>
+                <div class="mt-2 flex flex-wrap gap-2">
+                    @foreach ([6, 7, 8, 9, 10] as $value)
+                        <x-habit-option field="arbeitsbeginn" :value="$value" :label="$value" :current="$log?->arbeitsbeginn" :date="$day" />
+                    @endforeach
+                </div>
+                <p class="mt-1.5 text-xs text-neutral-400 dark:text-neutral-500">Uhrzeit, zu der du angefangen hast</p>
+            </div>
+
             <div>
                 <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Mittag vorbereitet</h3>
                 <div class="mt-2 flex flex-wrap gap-2">
                     <x-habit-option field="mittag_vorbereitet" value="1" label="Ja" :current="$log?->mittag_vorbereitet" :date="$day" />
                     <x-habit-option field="mittag_vorbereitet" value="0" label="Nein" :current="$log?->mittag_vorbereitet" :date="$day" />
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Mittagspause gemacht</h3>
+                <div class="mt-2 flex flex-wrap gap-2">
+                    <x-habit-option field="mittagspause" value="1" label="Ja" :current="$log?->mittagspause" :date="$day" />
+                    <x-habit-option field="mittagspause" value="0" label="Nein" :current="$log?->mittagspause" :date="$day" />
                 </div>
             </div>
         @endunless

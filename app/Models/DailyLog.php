@@ -15,7 +15,8 @@ class DailyLog extends Model
         'schlaf' => [1, 2, 3, 4, 5],
         'durchgeschlafen' => [1, 0],
         'energie' => [1, 2, 3, 4, 5],
-        'arbeitsbeginn' => [6, 7, 8, 9, 10],
+        // Minuten seit Mitternacht: 6:00 bis 10:00 in 30er-Schritten
+        'arbeitsbeginn' => [360, 390, 420, 450, 480, 510, 540, 570, 600],
         'mittag_vorbereitet' => [1, 0],
         'mittagspause' => [1, 0],
         'feierabend' => [1, 0],

@@ -38,8 +38,14 @@
             <div>
                 <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Arbeitsbeginn</h3>
                 <div class="mt-2 flex flex-wrap gap-2">
-                    @foreach ([6, 7, 8, 9, 10] as $value)
-                        <x-habit-option field="arbeitsbeginn" :value="$value" :label="$value" :current="$log?->arbeitsbeginn" :date="$day" />
+                    @foreach (\App\Models\DailyLog::FIELDS['arbeitsbeginn'] as $minutes)
+                        <x-habit-option
+                            field="arbeitsbeginn"
+                            :value="$minutes"
+                            :label="sprintf('%d:%02d', intdiv($minutes, 60), $minutes % 60)"
+                            :current="$log?->arbeitsbeginn"
+                            :date="$day"
+                        />
                     @endforeach
                 </div>
                 <p class="mt-1.5 text-xs text-neutral-400 dark:text-neutral-500">Uhrzeit, zu der du angefangen hast</p>

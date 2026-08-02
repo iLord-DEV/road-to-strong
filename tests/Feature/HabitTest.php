@@ -55,16 +55,18 @@ class HabitTest extends TestCase
         $this->actingAs($user)->post('/habit', ['field' => 'durchgeschlafen', 'value' => '1']);
         $this->actingAs($user)->post('/habit', ['field' => 'cannabis_vortag', 'value' => '0']);
         $this->actingAs($user)->post('/habit', ['field' => 'mittagspause', 'value' => '1']);
-        $this->actingAs($user)->post('/habit', ['field' => 'arbeitsbeginn', 'value' => '8']);
+        $this->actingAs($user)->post('/habit', ['field' => 'arbeitsbeginn', 'value' => '450']);
 
         $log = DailyLog::firstWhere('user_id', $user->id);
         $this->assertTrue($log->durchgeschlafen);
         $this->assertFalse($log->cannabis_vortag);
         $this->assertTrue($log->mittagspause);
-        $this->assertSame(8, (int) $log->arbeitsbeginn);
+        // 450 Minuten = 7:30 Uhr
+        $this->assertSame(450, (int) $log->arbeitsbeginn);
 
-        // 5 Uhr ist kein erlaubter Arbeitsbeginn
-        $this->actingAs($user)->post('/habit', ['field' => 'arbeitsbeginn', 'value' => '5'])->assertStatus(422);
+        // Nur 30-Minuten-Schritte zwischen 6:00 und 10:00 sind erlaubt
+        $this->actingAs($user)->post('/habit', ['field' => 'arbeitsbeginn', 'value' => '475'])->assertStatus(422);
+        $this->actingAs($user)->post('/habit', ['field' => 'arbeitsbeginn', 'value' => '8'])->assertStatus(422);
     }
 
     public function test_mittag_is_hidden_on_weekends(): void

@@ -38,7 +38,17 @@
             @endphp
             <div role="group" aria-labelledby="exercise-{{ $exercise->id }}-name" class="rounded-2xl bg-white p-6 shadow-sm dark:bg-neutral-900">
                 <div class="flex items-baseline justify-between gap-4">
-                    <p id="exercise-{{ $exercise->id }}-name" class="font-medium">{{ $exercise->name }}</p>
+                    <p id="exercise-{{ $exercise->id }}-name" class="font-medium">
+                        {{ $exercise->name }}
+                        @if ($exercise->video_url)
+                            <a
+                                href="{{ $exercise->video_url }}"
+                                target="_blank"
+                                rel="noopener"
+                                class="ml-1 text-sm font-normal text-neutral-400 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900 dark:text-neutral-500 dark:focus-visible:outline-neutral-100"
+                            >Video ↗</a>
+                        @endif
+                    </p>
                     @if ($last)
                         <p class="text-xs text-neutral-400 tabular-nums dark:text-neutral-500">Letztes Mal: {{ $last->summary() }}</p>
                     @endif

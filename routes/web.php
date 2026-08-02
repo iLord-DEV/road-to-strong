@@ -43,6 +43,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/kraft/uebungen', [ExerciseController::class, 'index'])->name('exercises.index');
     Route::post('/kraft/uebungen', [ExerciseController::class, 'store'])->name('exercises.store');
+    Route::get('/kraft/uebungen/{exercise}/bearbeiten', [ExerciseController::class, 'edit'])->name('exercises.edit');
+    Route::put('/kraft/uebungen/{exercise}', [ExerciseController::class, 'update'])->name('exercises.update');
     Route::delete('/kraft/uebungen/{exercise}', [ExerciseController::class, 'destroy'])->name('exercises.destroy');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 

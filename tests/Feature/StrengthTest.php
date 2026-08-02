@@ -34,6 +34,30 @@ class StrengthTest extends TestCase
         $this->assertDatabaseHas('exercises', ['name' => 'Bankdrücken', 'workout' => 'B']);
     }
 
+    public function test_exercise_can_be_edited_with_video_url(): void
+    {
+        $user = User::factory()->create();
+        $exercise = $this->makeExercise($user);
+
+        $this->actingAs($user)->put("/kraft/uebungen/{$exercise->id}", [
+            'name' => 'Goblet Squat',
+            'workout' => 'B',
+            'video_url' => 'https://www.youtube.com/results?search_query=goblet+squat',
+        ])->assertRedirect('/kraft/uebungen');
+
+        $exercise->refresh();
+        $this->assertSame('Goblet Squat', $exercise->name);
+        $this->assertSame('B', $exercise->workout);
+        $this->assertStringContainsString('youtube.com', $exercise->video_url);
+
+        // Nur echte URLs erlaubt
+        $this->actingAs($user)->put("/kraft/uebungen/{$exercise->id}", [
+            'name' => 'Goblet Squat',
+            'workout' => 'B',
+            'video_url' => 'javascript:alert(1)',
+        ])->assertSessionHasErrors('video_url');
+    }
+
     public function test_session_with_entries_is_stored(): void
     {
         $user = User::factory()->create();

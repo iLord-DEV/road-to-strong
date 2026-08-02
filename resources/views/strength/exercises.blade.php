@@ -20,22 +20,40 @@
                 @else
                     <ul class="mt-3 divide-y divide-neutral-100 dark:divide-neutral-800">
                         @foreach ($exercises[$workout] as $exercise)
-                            <li class="flex items-center justify-between gap-4 py-1">
-                                <span>{{ $exercise->name }}</span>
-                                <form
-                                    method="POST"
-                                    action="{{ route('exercises.destroy', $exercise) }}"
-                                    onsubmit="return confirm('Übung „{{ $exercise->name }}“ entfernen? Bereits erfasste Trainings bleiben erhalten.');"
-                                >
-                                    @csrf
-                                    @method('DELETE')
-                                    <button
-                                        type="submit"
+                            <li class="flex items-center justify-between gap-2 py-1">
+                                <span class="min-w-0">
+                                    {{ $exercise->name }}
+                                    @if ($exercise->video_url)
+                                        <a
+                                            href="{{ $exercise->video_url }}"
+                                            target="_blank"
+                                            rel="noopener"
+                                            class="ml-1 text-sm text-neutral-400 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900 dark:text-neutral-500 dark:focus-visible:outline-neutral-100"
+                                        >Video ↗</a>
+                                    @endif
+                                </span>
+                                <span class="flex shrink-0 items-center">
+                                    <a
+                                        href="{{ route('exercises.edit', $exercise) }}"
                                         class="flex min-h-11 items-center px-2 text-sm text-neutral-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900 dark:text-neutral-500 dark:focus-visible:outline-neutral-100"
                                     >
-                                        Entfernen
-                                    </button>
-                                </form>
+                                        Bearbeiten
+                                    </a>
+                                    <form
+                                        method="POST"
+                                        action="{{ route('exercises.destroy', $exercise) }}"
+                                        onsubmit="return confirm('Übung „{{ $exercise->name }}“ entfernen? Bereits erfasste Trainings bleiben erhalten.');"
+                                    >
+                                        @csrf
+                                        @method('DELETE')
+                                        <button
+                                            type="submit"
+                                            class="flex min-h-11 items-center px-2 text-sm text-neutral-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900 dark:text-neutral-500 dark:focus-visible:outline-neutral-100"
+                                        >
+                                            Entfernen
+                                        </button>
+                                    </form>
+                                </span>
                             </li>
                         @endforeach
                     </ul>
@@ -82,6 +100,21 @@
                         @endforeach
                     </div>
                 </fieldset>
+                <div>
+                    <label for="video_url" class="block text-sm font-medium text-neutral-600 dark:text-neutral-400">Technik-Video (URL, optional)</label>
+                    <input
+                        id="video_url"
+                        name="video_url"
+                        type="url"
+                        maxlength="255"
+                        value="{{ old('video_url') }}"
+                        placeholder="https://www.youtube.com/…"
+                        class="mt-2 block min-h-12 w-full rounded-xl border border-neutral-300 bg-white px-4 text-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900 dark:border-neutral-700 dark:bg-neutral-900 dark:focus-visible:outline-neutral-100"
+                    >
+                    @error('video_url')
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                    @enderror
+                </div>
                 <button
                     type="submit"
                     class="min-h-12 w-full rounded-xl bg-neutral-900 font-medium text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900 dark:bg-neutral-50 dark:text-neutral-900 dark:focus-visible:outline-neutral-100"

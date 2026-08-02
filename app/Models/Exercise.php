@@ -17,6 +17,7 @@ class Exercise extends Model
         'user_id',
         'name',
         'workout',
+        'video_url',
         'position',
     ];
 

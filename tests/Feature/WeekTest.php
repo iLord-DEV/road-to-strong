@@ -37,9 +37,11 @@ class WeekTest extends TestCase
             'raw' => [],
         ]);
 
+        // Wochenstart (Montag) ist nie in der Zukunft — Folgetage schon,
+        // wenn die Suite montags läuft, und Zukunftstage zeigen keine Werte
         DailyLog::create([
             'user_id' => $user->id,
-            'date' => now()->startOfWeek()->addDay(),
+            'date' => now()->startOfWeek(),
             'feierabend' => true,
             'naschen' => 'keines',
             'schlaf' => 4,
@@ -50,8 +52,8 @@ class WeekTest extends TestCase
             ->assertSee('78,4')
             ->assertSee('1:00')
             ->assertSee('1 Einheit')
-            ->assertSee('Feierabend eingehalten, Di: Ja', false)
-            ->assertSee('Naschen, Di: keines', false)
+            ->assertSee('Feierabend eingehalten, Mo: Ja', false)
+            ->assertSee('Naschen, Mo: keines', false)
             ->assertSee('Schlaf Ø 4,0');
     }
 

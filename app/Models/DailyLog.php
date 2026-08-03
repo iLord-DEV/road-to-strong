@@ -14,6 +14,7 @@ class DailyLog extends Model
     public const FIELDS = [
         'schlaf' => [1, 2, 3, 4, 5],
         'durchgeschlafen' => [1, 0],
+        'schlafhygiene' => [1, 0],
         'energie' => [1, 2, 3, 4, 5],
         // Minuten seit Mitternacht: 6:00 bis 10:00 in 30er-Schritten
         'arbeitsbeginn' => [360, 390, 420, 450, 480, 510, 540, 570, 600],
@@ -35,6 +36,7 @@ class DailyLog extends Model
         'craving',
         'schlaf',
         'durchgeschlafen',
+        'schlafhygiene',
         'energie',
         'arbeitsbeginn',
         'cannabis_vortag',
@@ -48,6 +50,7 @@ class DailyLog extends Model
             'mittag_vorbereitet' => 'boolean',
             'mittagspause' => 'boolean',
             'durchgeschlafen' => 'boolean',
+            'schlafhygiene' => 'boolean',
             'cannabis_vortag' => 'boolean',
         ];
     }

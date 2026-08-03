@@ -107,6 +107,7 @@ class WeekController extends Controller
 
         return [
             ['label' => 'Durchgeschlafen', 'dots' => $boolDots('durchgeschlafen')],
+            ['label' => 'Schlafhygiene', 'dots' => $boolDots('schlafhygiene')],
             ['label' => 'Mittag vorbereitet', 'dots' => $boolDots('mittag_vorbereitet', workdaysOnly: true)],
             ['label' => 'Feierabend eingehalten', 'dots' => $boolDots('feierabend')],
             ['label' => 'Naschen', 'dots' => $naschenDots],

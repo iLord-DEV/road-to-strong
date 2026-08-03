@@ -53,6 +53,7 @@ class HabitTest extends TestCase
         $user = User::factory()->create();
 
         $this->actingAs($user)->post('/habit', ['field' => 'durchgeschlafen', 'value' => '1']);
+        $this->actingAs($user)->post('/habit', ['field' => 'schlafhygiene', 'value' => '1']);
         $this->actingAs($user)->post('/habit', ['field' => 'cannabis_vortag', 'value' => '0']);
         $this->actingAs($user)->post('/habit', ['field' => 'mittagspause', 'value' => '1']);
         $this->actingAs($user)->post('/habit', ['field' => 'arbeitsbeginn', 'value' => '450']);

@@ -24,6 +24,15 @@
         </div>
 
         <div>
+            <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Schlafhygiene eingehalten</h3>
+            <div class="mt-2 flex flex-wrap gap-2">
+                <x-habit-option field="schlafhygiene" value="1" label="Ja" :current="$log?->schlafhygiene" :date="$day" />
+                <x-habit-option field="schlafhygiene" value="0" label="Nein" :current="$log?->schlafhygiene" :date="$day" />
+            </div>
+            <p class="mt-1.5 text-xs text-neutral-400 dark:text-neutral-500">Gestern Abend: Routine eingehalten (Bildschirm aus, feste Zeit)</p>
+        </div>
+
+        <div>
             <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Energie</h3>
             <div class="mt-2 flex flex-wrap gap-2">
                 @foreach ([1, 2, 3, 4, 5] as $value)

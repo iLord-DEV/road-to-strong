@@ -66,6 +66,7 @@
                     <x-habit-option field="mittag_vorbereitet" value="1" label="Ja" :current="$log?->mittag_vorbereitet" :date="$day" />
                     <x-habit-option field="mittag_vorbereitet" value="0" label="Nein" :current="$log?->mittag_vorbereitet" :date="$day" />
                 </div>
+                <p class="mt-1.5 text-xs text-neutral-400 dark:text-neutral-500">War dein Mittag heute versorgt? (egal, wann gekocht)</p>
             </div>
 
             <div>

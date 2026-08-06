@@ -17,7 +17,7 @@ class HabitTest extends TestCase
 
         $this->actingAs($user)
             ->post('/habit', ['field' => 'schlaf', 'value' => '4'])
-            ->assertRedirect('/');
+            ->assertRedirect(route('dashboard').'#habit-schlaf');
 
         $log = DailyLog::firstWhere('user_id', $user->id);
         $this->assertSame('4', (string) $log->schlaf);

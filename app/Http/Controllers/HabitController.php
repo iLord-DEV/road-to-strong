@@ -55,7 +55,8 @@ class HabitController extends Controller
 
         $log->update([$field => $value]);
 
-        return back(fallback: route('dashboard'));
+        // Jump back to the tapped habit group instead of the top of the page
+        return back(fallback: route('dashboard'))->withFragment('habit-'.$field);
     }
 
     /**

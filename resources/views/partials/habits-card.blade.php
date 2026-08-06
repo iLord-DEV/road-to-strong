@@ -5,7 +5,7 @@
     </h2>
 
     <div class="mt-5 space-y-6">
-        <div>
+        <div id="habit-schlaf" class="scroll-mt-6">
             <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Schlafqualität</h3>
             <div class="mt-2 flex flex-wrap gap-2">
                 @foreach ([1, 2, 3, 4, 5] as $value)
@@ -15,7 +15,7 @@
             <p class="mt-1.5 text-xs text-neutral-400 dark:text-neutral-500">1 = schlecht geschlafen · 5 = tief und erholt</p>
         </div>
 
-        <div>
+        <div id="habit-durchgeschlafen" class="scroll-mt-6">
             <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Durchgeschlafen</h3>
             <div class="mt-2 flex flex-wrap gap-2">
                 <x-habit-option field="durchgeschlafen" value="1" label="Ja" :current="$log?->durchgeschlafen" :date="$day" />
@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <div>
+        <div id="habit-schlafhygiene" class="scroll-mt-6">
             <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Schlafhygiene eingehalten</h3>
             <div class="mt-2 flex flex-wrap gap-2">
                 <x-habit-option field="schlafhygiene" value="1" label="Ja" :current="$log?->schlafhygiene" :date="$day" />
@@ -32,7 +32,7 @@
             <p class="mt-1.5 text-xs text-neutral-400 dark:text-neutral-500">Gestern Abend: Routine eingehalten (Bildschirm aus, feste Zeit)</p>
         </div>
 
-        <div>
+        <div id="habit-energie" class="scroll-mt-6">
             <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Energie</h3>
             <div class="mt-2 flex flex-wrap gap-2">
                 @foreach ([1, 2, 3, 4, 5] as $value)
@@ -44,7 +44,7 @@
 
         {{-- Nur an Arbeitstagen relevant — am Wochenende gibt es keinen Arbeitstag zu protokollieren --}}
         @unless ($day->isWeekend())
-            <div>
+            <div id="habit-arbeitsbeginn" class="scroll-mt-6">
                 <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Arbeitsbeginn</h3>
                 <div class="mt-2 flex flex-wrap gap-2">
                     @foreach (\App\Models\DailyLog::FIELDS['arbeitsbeginn'] as $minutes)
@@ -60,7 +60,7 @@
                 <p class="mt-1.5 text-xs text-neutral-400 dark:text-neutral-500">Uhrzeit, zu der du angefangen hast</p>
             </div>
 
-            <div>
+            <div id="habit-mittag_vorbereitet" class="scroll-mt-6">
                 <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Mittag vorbereitet</h3>
                 <div class="mt-2 flex flex-wrap gap-2">
                     <x-habit-option field="mittag_vorbereitet" value="1" label="Ja" :current="$log?->mittag_vorbereitet" :date="$day" />
@@ -69,7 +69,7 @@
                 <p class="mt-1.5 text-xs text-neutral-400 dark:text-neutral-500">War dein Mittag heute versorgt? (egal, wann gekocht)</p>
             </div>
 
-            <div>
+            <div id="habit-mittagspause" class="scroll-mt-6">
                 <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Mittagspause gemacht</h3>
                 <div class="mt-2 flex flex-wrap gap-2">
                     <x-habit-option field="mittagspause" value="1" label="Ja" :current="$log?->mittagspause" :date="$day" />
@@ -78,7 +78,7 @@
             </div>
         @endunless
 
-        <div>
+        <div id="habit-feierabend" class="scroll-mt-6">
             <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Feierabend eingehalten</h3>
             <div class="mt-2 flex flex-wrap gap-2">
                 <x-habit-option field="feierabend" value="1" label="Ja" :current="$log?->feierabend" :date="$day" />
@@ -86,7 +86,7 @@
             </div>
         </div>
 
-        <div>
+        <div id="habit-naschen" class="scroll-mt-6">
             <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Naschen</h3>
             <div class="mt-2 flex flex-wrap gap-2">
                 <x-habit-option field="naschen" value="keines" label="Keines" :current="$log?->naschen" :date="$day" />
@@ -95,7 +95,7 @@
             </div>
         </div>
 
-        <div>
+        <div id="habit-craving" class="scroll-mt-6">
             <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Craving</h3>
             <div class="mt-2 flex flex-wrap gap-2">
                 @foreach ([0, 1, 2, 3] as $value)
@@ -105,7 +105,7 @@
             <p class="mt-1.5 text-xs text-neutral-400 dark:text-neutral-500">0 = kein Verlangen · 3 = starkes Verlangen</p>
         </div>
 
-        <div>
+        <div id="habit-cannabis_vortag" class="scroll-mt-6">
             <h3 class="text-sm text-neutral-500 dark:text-neutral-400">Cannabis am Vortag</h3>
             <div class="mt-2 flex flex-wrap gap-2">
                 <x-habit-option field="cannabis_vortag" value="1" label="Ja" :current="$log?->cannabis_vortag" :date="$day" />

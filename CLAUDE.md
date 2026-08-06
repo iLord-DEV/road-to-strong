@@ -24,7 +24,7 @@ Die vollständige Produktvision steht in `docs/VISION.md` — vor größeren Ent
 - `VirtualRide` oder `trainer=true` ⇒ `indoor`. Sport-Labels: `Activity::sportLabel()` (VirtualRide = "Kickr", Rowing/VirtualRow = "WaterRower").
 - OAuth-Callbacks werden in der Praxis doppelt aufgerufen (Reload/Redirect); der Einmal-State ist dann verbraucht → freundlicher Redirect aufs Dashboard statt 403.
 - Systemschriften statt Webfonts (Datenschutz, Apple-Health-Look), keine externen Requests im Frontend.
-- **Habits**: ein `daily_logs`-Datensatz pro Tag (unique user+date), alle Felder nullable. Erlaubte Werte zentral in `DailyLog::FIELDS`. Erfassung über reine POST-Formulare (`x-habit-option`, kein JS); erneutes Tippen auf den gewählten Wert löscht ihn wieder. Alle Felder beziehen sich rückblickend auf den laufenden Tag (`cannabis_vortag` auf den Vortag). „Mittag vorbereitet" wird Sa+So ausgeblendet (kein Arbeits-Mittag); „Feierabend" bleibt bewusst an 7 Tagen — Wochenend-Arbeit soll sichtbar werden.
+- **Habits**: ein `daily_logs`-Datensatz pro Tag (unique user+date), alle Felder nullable. Erlaubte Werte zentral in `DailyLog::FIELDS`. Erfassung über reine POST-Formulare (`x-habit-option`, kein JS); erneutes Tippen auf den gewählten Wert löscht ihn wieder. Nach dem Speichern Redirect mit `#habit-{field}`-Fragment zurück zur angetippten Gruppe (sonst springt die Seite nach oben). Alle Felder beziehen sich rückblickend auf den laufenden Tag (`cannabis_vortag` auf den Vortag). „Mittag vorbereitet" wird Sa+So ausgeblendet (kein Arbeits-Mittag); „Feierabend" bleibt bewusst an 7 Tagen — Wochenend-Arbeit soll sichtbar werden.
 - **Wochenübersicht** (`/woche`): Aggregation in `WeekController` (Ø Gewicht, Trainingszeit, Habit-Zähler, Kraft-Einheiten, 8-Wochen-Sparkline als inline SVG). Woche = ISO (Mo–So).
 - **Krafttraining** (`/kraft`): `exercises` (Workout A/B, SoftDeletes — Löschen erhält Historie), `strength_sessions` + `strength_entries` (ein Eintrag pro Übung: Gewicht × Wdh. × Sätze, kein Einzelsatz-Logging). Eintragsformular füllt letzte Werte vor (Progression). Übungen ohne Wdh./Sätze werden beim Speichern übersprungen.
 - Kein `<fieldset>`/`<legend>` für Karten-Layouts — Browser rendern die Legend immer auf der Rahmenlinie; stattdessen `role="group"` + `aria-labelledby`.
@@ -49,6 +49,10 @@ Die vollständige Produktvision steht in `docs/VISION.md` — vor größeren Ent
 2. `.env`: `STRAVA_CLIENT_ID/SECRET`, `WITHINGS_CLIENT_ID/SECRET`, `USER_HEIGHT_M`
 3. `php artisan migrate && php artisan app:create-user <email>`
 4. OAuth-Redirect-URIs bei den Providern: `{APP_URL}/auth/strava/callback` bzw. `{APP_URL}/auth/withings/callback`
+
+Login-Zugangsdaten für die lokale Dev-Umgebung stehen als Kommentar am Ende der lokalen `.env`
+(Repo ist öffentlich — Passwörter gehören nie in eingecheckte Dateien). Passwort-Reset:
+`php artisan app:create-user <email>` (interaktiv, nicht über die Claude-`!`-Eingabe).
 
 - **PWA**: `public/manifest.webmanifest` + Icons (`public/icons/`, maskable mit 70%-Safe-Zone), Meta-Tags im Layout. Kein Service Worker (bewusst: kein Offline-Cache, keine Stale-Daten). Installation vom Handy setzt HTTPS-Erreichbarkeit voraus.
 
